@@ -1,0 +1,20 @@
+type ExampleEntity @entity {
+  id: ID!
+  count: BigInt!
+  owner: Bytes! # address
+  spender: Bytes! # address
+}
+
+type ExampleEntity2 @entity {
+  id: ID!
+  count: BigInt!
+  burnerAddress: Bytes! # address
+  burnerStatus: Boolean!
+}
+
+type Minter @entity {
+  id: ID!
+  count: BigInt!
+  minterAddress: Bytes! # address
+  minterStatus: Boolean!
+}

@@ -1,0 +1,36 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Api3Token
+    network: mainnet
+    source:
+      address: "0x0b38210ea11411557c13457D4dA7dC6ea731B88a"
+      abi: Api3Token
+      startBlock: 11203771
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - BurnerStatusUpdated
+        - MinterStatusUpdated
+        - OwnershipTransferred
+        - Transfer
+      abis:
+        - name: Api3Token
+          file: Api3Token/abis/Api3Token.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: BurnerStatusUpdated(indexed address,bool)
+          handler: handleBurnerStatusUpdated
+        - event: MinterStatusUpdated(indexed address,bool)
+          handler: handleMinterStatusUpdated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: Api3Token/Api3Token.wasm
