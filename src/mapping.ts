@@ -157,6 +157,7 @@ export function handleTransfer(event: Transfer): void {
   entity.count = entity.count + BigInt.fromI32(1)
 
   // Entity fields can be set based on event parameters
+  entity.from = event.params.from
   entity.to = event.params.to
   entity.value = event.params.value
 
