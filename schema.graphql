@@ -1,11 +1,11 @@
-type ExampleEntity @entity {
+type Approve @entity {
   id: ID!
   count: BigInt!
   owner: Bytes! # address
   spender: Bytes! # address
 }
 
-type ExampleEntity2 @entity {
+type Burner @entity {
   id: ID!
   count: BigInt!
   burnerAddress: Bytes! # address
@@ -17,4 +17,19 @@ type Minter @entity {
   count: BigInt!
   minterAddress: Bytes! # address
   minterStatus: Boolean!
+}
+
+type OwnershipTransfer @entity {
+  id: ID!
+  count: BigInt!
+  previousOwner: Bytes! # address
+  newOwner: Bytes!
+}
+
+type Transferr @entity {
+  id: ID!
+  count: BigInt!
+  from: Bytes! # address
+  to: Bytes!
+  value: BigInt!
 }

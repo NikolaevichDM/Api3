@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, Bytes } from "@graphprotocol/graph-ts"
 import {
   Api3Token,
   Approval,
@@ -7,17 +7,17 @@ import {
   OwnershipTransferred,
   Transfer
 } from "../generated/Api3Token/Api3Token"
-import { ExampleEntity, ExampleEntity2, Minter } from "../generated/schema"
+import { Approve, Burner, Minter, OwnershipTransfer, Transferr } from "../generated/schema"
 
 export function handleApproval(event: Approval): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+  let entity = Approve.load(event.transaction.from.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
+    entity = new Approve(event.transaction.from.toHex())
 
     // Entity fields can be set using simple assignments
     entity.count = BigInt.fromI32(0)
@@ -67,12 +67,12 @@ export function handleApproval(event: Approval): void {
 export function handleBurnerStatusUpdated(event: BurnerStatusUpdated): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = ExampleEntity2.load(event.params.burnerAddress.toHex())
+  let entity = Burner.load(event.params.burnerAddress.toHex())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (entity == null) {
-    entity = new ExampleEntity2(event.params.burnerAddress.toHex())
+    entity = new Burner(event.params.burnerAddress.toHex())
 
     // Entity fields can be set using simple assignments
     entity.count = BigInt.fromI32(0)
@@ -114,6 +114,52 @@ export function handleMinterStatusUpdated(event: MinterStatusUpdated): void {
   entity.save()  
 }
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+export function handleOwnershipTransferred(event: OwnershipTransferred): void {
+// Entities can be loaded from the store using a string ID; this ID
+  // needs to be unique across all entities of the same type
+  let entity = OwnershipTransfer.load(event.transaction.from.toHex())
 
-export function handleTransfer(event: Transfer): void {}
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (entity == null) {
+    entity = new OwnershipTransfer(event.transaction.from.toHex())
+
+    // Entity fields can be set using simple assignments
+    entity.count = BigInt.fromI32(0)
+  }
+
+  // BigInt and BigDecimal math are supported
+  entity.count = entity.count + BigInt.fromI32(1)
+
+  // Entity fields can be set based on event parameters
+  entity.previousOwner = event.params.previousOwner
+  entity.newOwner = event.params.newOwner
+
+  // Entities can be written to the store with `.save()`
+  entity.save()
+}
+
+export function handleTransfer(event: Transfer): void {
+// Entities can be loaded from the store using a string ID; this ID
+  // needs to be unique across all entities of the same type
+  let entity = Transferr.load(event.transaction.from.toHex())
+
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (entity == null) {
+    entity = new Transferr(event.transaction.from.toHex())
+
+    // Entity fields can be set using simple assignments
+    entity.count = BigInt.fromI32(0)
+  }
+
+  // BigInt and BigDecimal math are supported
+  entity.count = entity.count + BigInt.fromI32(1)
+
+  // Entity fields can be set based on event parameters
+  entity.to = event.params.to
+  entity.value = event.params.value
+
+  // Entities can be written to the store with `.save()`
+  entity.save()  
+}
